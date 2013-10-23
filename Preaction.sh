@@ -1,15 +1,36 @@
 #!/bin/sh
+
+# The MIT License (MIT)
+# 
+# Copyright (c) 2013 Joan Martin
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of
+# this software and associated documentation files (the "Software"), to deal in
+# the Software without restriction, including without limitation the rights to
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+# the Software, and to permit persons to whom the Software is furnished to do so,
+# subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+# IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+# CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  
 # This script automatically sets the version and build string of
 # an Xcode project from the Git repository containing the project.  
 #
 # VERSION: last tag in the git repository (should be something like 0.1.4)
-# BUILD: <number_of_commits_since_last_tag>
+# BUILD: number of commits since last tag
 # 
 # OUTPUT SAMPLE: 2.4.1.11 (version 2.4.1, build 11).
 #
-# Also, updates to the project PLIST the current commit and if dirty or not.
-# This values are listed in the fields CTVGitCommitID and CTVGitDirtyRepository.
+# Also, updates to the project info-PLIST the current commit and if it is dirty or not (contains uncomited changes).
+# This values are listed in the fields GSVGitCommitID and GSVGitDirtyRepository.
 #
 # To use this script in Xcode 5:
 # Edit Scheme > Build > Pre-actions > + > New run script action
