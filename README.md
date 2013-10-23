@@ -4,7 +4,6 @@ ios-gitsemver
 Automatic semantic versioning based on Git for iOS projects.
 
 ##How it works?
----
 
 ios-gitsemver updates your number of version and build of your iOS Xcode project automatically by computing those values from the current Git repository. 
 
@@ -16,12 +15,11 @@ In order to be compatible with the AppStore guidelines, your tags must follow th
 For more information about how to choose your version numbers, take a look into [SemVer](http://semver.org).
 
 ##What is the magic?
----
 
 Because you are hosting your Xcode project into a Git repository, when changing any file (in particular, the *info-plist* file), the repository is marked as dirty. The scripts of ios-gitsemver do and undo every changes in order to do not modify your project and your repository. This way, when Xcode is compiling and preparing the bundles and packages to be deployed into the device (or into the AppStore), ios-gitsemver has previously setup the correct values for the version & build number, as well as extra parameters as current commit id or if the repository is dirty or not. Finally, after the build action has finished, ios-gitsemver reset those values to a default ones.
 
 ##Setup your project
----
+
 
 ios-gitsemver has two scripts: one to be executed before a building action (*Preaction.sh*) and one to be executed after the building action (*Postaction.sh*).
 
@@ -42,7 +40,6 @@ Then unfold the option *Build* in your left column and add:
 Remebmer to do this for every scheme you have.
 
 ## Runing your project
----
 
 Now, from your code you can get version & build numbers as well as commit id and if the repository is dirty or not very easily.
 
@@ -72,7 +69,7 @@ A boolean value indicating if the repository was dirty (uncommited changes) when
 
 
 ##License
----
+
 The MIT License (MIT)
 
 Copyright (c) 2013 Joan Martin
