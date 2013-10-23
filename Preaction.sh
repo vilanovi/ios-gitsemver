@@ -16,7 +16,7 @@
 # Then, paste the following: ${PROJECT_DIR}/<path_to_file>/BumpVersionBuildNumber.sh "${PROJECT_DIR}/${INFOPLIST_FILE}"
 # Also, set teh "Provide build settings from" to the current project.
 
-function CTVLog {
+function DoLog {
     d=$(date +'%Y-%m-%d %H:%M:%S|%N')
     ms=$(( ${d#*|}/1000000 ))
     d="${d%|*}.$ms"
@@ -37,10 +37,10 @@ COMMIT_VERSION=$(git describe --dirty | awk '{split($0,a,"-"); print a[2]}');
 COMMIT_ID=$(git describe --dirty | awk '{split($0,a,"-"); print a[3]}');
 COMMIT_DIRTY=$(git describe --dirty | awk '{split($0,a,"-"); print a[4]}');
 
-# CTVLog "SHORT_VERSION_STRING $SHORT_VERSION_STRING"
-# CTVLog "COMMIT_VERSION $COMMIT_VERSION"
-# CTVLog "COMMIT_ID $COMMIT_ID"
-# CTVLog "COMMIT_DIRTY $COMMIT_DIRTY"
+# DoLog "SHORT_VERSION_STRING $SHORT_VERSION_STRING"
+# DoLog "COMMIT_VERSION $COMMIT_VERSION"
+# DoLog "COMMIT_ID $COMMIT_ID"
+# DoLog "COMMIT_DIRTY $COMMIT_DIRTY"
   
 if [[ "$SHORT_VERSION_STRING" == "" ]]; then
     #nothing to do!
@@ -60,12 +60,12 @@ else
     COMMIT_IS_DIRTY=1;
 fi
 
-# CTVLog "CFBundleShortVersionString $SHORT_VERSION_STRING"
-# CTVLog "CFBundleVersion $BUILD_STRING"
-# CTVLog "CTVGitCommitID $COMMIT_ID"
-# CTVLog "CTVGitDirtyRepository $COMMIT_IS_DIRTY"
+# DoLog "CFBundleShortVersionString $SHORT_VERSION_STRING"
+# DoLog "CFBundleVersion $BUILD_STRING"
+# DoLog "GSVGitCommitID $COMMIT_ID"
+# DoLog "GSVGitDirtyRepository $COMMIT_IS_DIRTY"
 
 /usr/libexec/Plistbuddy -c "Set CFBundleShortVersionString $SHORT_VERSION_STRING" "$plist"
 /usr/libexec/Plistbuddy -c "Set CFBundleVersion $BUILD_STRING" "$plist"
-/usr/libexec/Plistbuddy -c "Set CTVGitCommitID $COMMIT_ID" "$plist"
-/usr/libexec/Plistbuddy -c "Set CTVGitDirtyRepository $COMMIT_IS_DIRTY" "$plist"
+/usr/libexec/Plistbuddy -c "Set GSVGitCommitID $COMMIT_ID" "$plist"
+/usr/libexec/Plistbuddy -c "Set GSVGitDirtyRepository $COMMIT_IS_DIRTY" "$plist"

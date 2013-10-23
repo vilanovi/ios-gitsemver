@@ -18,5 +18,5 @@ COMMIT_ID=0
 COMMIT_IS_DIRTY=0
 
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $BUNDLE_VERSION" "$plist"
-/usr/libexec/PlistBuddy -c "Set :CTVGitCommitID $COMMIT_ID" "$plist"
-/usr/libexec/PlistBuddy -c "Set :CTVGitDirtyRepository $COMMIT_IS_DIRTY" "$plist"
+/usr/libexec/PlistBuddy -c "Set :GSVGitCommitID $COMMIT_ID" "$plist"
+/usr/libexec/PlistBuddy -c "Set :GSVGitDirtyRepository $COMMIT_IS_DIRTY" "$plist"
