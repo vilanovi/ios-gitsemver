@@ -81,12 +81,14 @@ else
     COMMIT_IS_DIRTY=1;
 fi
 
-# DoLog "CFBundleShortVersionString $SHORT_VERSION_STRING"
-# DoLog "CFBundleVersion $BUILD_STRING"
-# DoLog "GSVGitCommitID $COMMIT_ID"
-# DoLog "GSVGitDirtyRepository $COMMIT_IS_DIRTY"
+ DoLog "CFBundleShortVersionString $SHORT_VERSION_STRING"
+ DoLog "CFBundleVersion $BUILD_STRING"
+ DoLog "GSVGitCommitID $COMMIT_ID"
+ DoLog "GSVGitDirtyRepository $COMMIT_IS_DIRTY"
 
 /usr/libexec/Plistbuddy -c "Set :CFBundleShortVersionString $SHORT_VERSION_STRING" "$plist"
 /usr/libexec/Plistbuddy -c "Set :CFBundleVersion $BUILD_STRING" "$plist"
-/usr/libexec/Plistbuddy -c "Add :GSVGitCommitID string $COMMIT_ID" "$plist"
-/usr/libexec/Plistbuddy -c "Add :GSVGitDirtyRepository bool $COMMIT_IS_DIRTY" "$plist"
+/usr/libexec/Plistbuddy -c "Add :GSVGitCommitID string 0" "$plist"
+/usr/libexec/Plistbuddy -c "Add :GSVGitDirtyRepository bool 0" "$plist"
+/usr/libexec/Plistbuddy -c "Set :GSVGitCommitID $COMMIT_ID" "$plist"
+/usr/libexec/Plistbuddy -c "Set :GSVGitDirtyRepository $COMMIT_IS_DIRTY" "$plist"
