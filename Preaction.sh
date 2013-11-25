@@ -49,7 +49,8 @@ function DoLog {
 
 plist="$1"
 PROJECT_DIR="$(dirname "$plist")"
-#GIT_REPO_DIR="${PROJECT_DIR}/../../"
+
+cd "$PROJECT_DIR"
 GIT_REPO_DIR="$(git rev-parse --show-toplevel)"
 
 cd "$GIT_REPO_DIR"
