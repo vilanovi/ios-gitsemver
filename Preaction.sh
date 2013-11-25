@@ -49,45 +49,55 @@ function DoLog {
 
 plist="$1"
 PROJECT_DIR="$(dirname "$plist")"
-GIT_REPO_DIR="${PROJECT_DIR}/../../"
+#GIT_REPO_DIR="${PROJECT_DIR}/../../"
+GIT_REPO_DIR="$(git rev-parse --show-toplevel)"
 
 cd "$GIT_REPO_DIR"
 
-SHORT_VERSION_STRING=$(git describe --dirty | awk '{split($0,a,"-"); print a[1]}')
-COMMIT_VERSION=$(git describe --dirty | awk '{split($0,a,"-"); print a[2]}');
+LAST_TAG=$(git describe --dirty | awk '{split($0,a,"-"); print a[1]}')
+COMMIT_COUNT_FROM_TAG=$(git describe --dirty | awk '{split($0,a,"-"); print a[2]}');
 COMMIT_ID=$(git describe --dirty | awk '{split($0,a,"-"); print a[3]}');
 COMMIT_DIRTY=$(git describe --dirty | awk '{split($0,a,"-"); print a[4]}');
-
-# DoLog "SHORT_VERSION_STRING $SHORT_VERSION_STRING"
-# DoLog "COMMIT_VERSION $COMMIT_VERSION"
-# DoLog "COMMIT_ID $COMMIT_ID"
-# DoLog "COMMIT_DIRTY $COMMIT_DIRTY"
+COMMIT_COUNT_TOTAL=$(git rev-list HEAD --count);
   
-if [[ "$SHORT_VERSION_STRING" == "" ]]; then
-    #nothing to do!
-    exit 0;
+# Validate LAST_TAG
+if [[ "$LAST_TAG" == "" ]]; then
+	LAST_TAG="0.0.0"
 fi
 
-if [[ "$COMMIT_VERSION" == "" ]]; then
-    BUILD_STRING="0"
-else
-    BUILD_STRING="$COMMIT_VERSION"
+# validate CommitCountFromTag
+if [[ "$COMMIT_COUNT_FROM_TAG" == "" ]]; then
+    COMMIT_COUNT_FROM_TAG="0"
 fi
 
-COMMIT_IS_DIRTY=0;
+# validate CommitIsDirty
+COMMIT_IS_DIRTY=1;
 if [[ "$COMMIT_DIRTY" == "" ]]; then
     COMMIT_IS_DIRTY=0;
-else
-    COMMIT_IS_DIRTY=1;
 fi
 
- # DoLog "CFBundleShortVersionString $SHORT_VERSION_STRING"
- # DoLog "CFBundleVersion $BUILD_STRING"
- # DoLog "GSVGitCommitID $COMMIT_ID"
- # DoLog "GSVGitDirtyRepository $COMMIT_IS_DIRTY"
+# Validate CommitCountTotal
+if [[ "$COMMIT_COUNT_TOTAL" == "" ]]; then
+	COMMIT_COUNT_TOTAL="0"
+fi
 
+# Assign the choosen values
+SHORT_VERSION_STRING="$LAST_TAG"
+#BUNDLE_VERSION="$COMMIT_COUNT_FROM_TAG" # <-- NOT VALID FOR AppStore SUBMISSION!
+#BUNDLE_VERSION="$COMMIT_COUNT_TOTAL"
+BUNDLE_VERSION="$LAST_TAG"
+
+# Log if debug needed
+# DoLog "CFBundleShortVersionString $SHORT_VERSION_STRING"
+# DoLog "CFBundleVersion $BUNDLE_VERSION"
+# DoLog "GSVGitCommitID $COMMIT_ID"
+# DoLog "GSVGitDirtyRepository $COMMIT_IS_DIRTY"
+
+#Setting the ShortVersionString and BundleVersion
 /usr/libexec/Plistbuddy -c "Set :CFBundleShortVersionString $SHORT_VERSION_STRING" "$plist"
-/usr/libexec/Plistbuddy -c "Set :CFBundleVersion $BUILD_STRING" "$plist"
+/usr/libexec/Plistbuddy -c "Set :CFBundleVersion $BUNDLE_VERSION" "$plist"
+
+#Setting additional values
 /usr/libexec/Plistbuddy -c "Add :GSVGitCommitID string 0" "$plist"
 /usr/libexec/Plistbuddy -c "Add :GSVGitDirtyRepository bool 0" "$plist"
 /usr/libexec/Plistbuddy -c "Set :GSVGitCommitID $COMMIT_ID" "$plist"
